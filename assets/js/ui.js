@@ -6,9 +6,9 @@
 
 /* -------- Navbar -------- */
 const CATEGORY_PAGES = {
-  bangles: 'Bangles/index.html',
-  necklaces: 'Neckales/index.html',
-  earrings: 'earrings/index.html',
+  bangles: 'bangles.html',
+  necklaces: 'necklaces.html',
+  earrings: 'earrings.html',
 };
 const CATEGORY_KEYWORDS = {
   bangles: ['bangle', 'bangles', 'bracelet'],
@@ -17,8 +17,7 @@ const CATEGORY_KEYWORDS = {
 };
 
 function categoryUrl(catKey) {
-  const onHome = !document.body.dataset.category;
-  return (onHome ? '' : '../') + CATEGORY_PAGES[catKey];
+  return CATEGORY_PAGES[catKey];
 }
 
 // Decides which category page a search query belongs to —
@@ -298,6 +297,8 @@ function openQuickView(item) {
 
 /* -------- Scroll reveal -------- */
 function initReveal() {
+  // If animations.js + GSAP/ScrollTrigger are handling reveals, don't double up.
+  if (typeof window.gsap !== 'undefined') return;
   const els = document.querySelectorAll('.reveal');
   if (!('IntersectionObserver' in window) || !els.length) { els.forEach(e => e.classList.add('in')); return; }
   const io = new IntersectionObserver(entries => {

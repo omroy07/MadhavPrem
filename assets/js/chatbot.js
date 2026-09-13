@@ -13,11 +13,11 @@ const KB = {
   },
 
   categories: [
-    { name: 'Earrings', count: 45, priceRange: '₹200 – ₹270', link: 'earings/earrings.html',
+    { name: 'Earrings', count: 45, priceRange: '₹200 – ₹270', link: 'earrings/index.html',
       desc: 'A wide collection of Jhumkas, chandbalis, statement drops, and ethnic designs. Perfect for daily wear, festive occasions, weddings, and parties.' },
-    { name: 'Bangles / Bracelets', count: 8, priceRange: '₹549 – ₹1099', link: 'Bangles/',
+    { name: 'Bangles / Bracelets', count: 12, priceRange: '₹499 – ₹1199', link: 'Bangles/index.html',
       desc: 'Classic gold, temple-style, kundan, meenakari, stone-work, bridal, and daily-wear bangles. Blends tradition with modern charm.' },
-    { name: 'Necklaces', count: 8, priceRange: '₹749 – ₹1299', link: 'Neckales/',
+    { name: 'Necklaces', count: 10, priceRange: '₹599 – ₹1999', link: 'Neckales/index.html',
       desc: 'Layered necklaces, choker sets, pendant necklaces, kundan neckpieces, royal pearl sets, and festive long necklaces.' },
     { name: 'Bridal Sets', count: null, priceRange: '₹1899+', link: 'index.html#order',
       desc: 'Complete bridal jewelry sets for your special day. Custom and bulk orders welcome.' },
@@ -52,25 +52,31 @@ const KB = {
   ],
 
   bangles: [
-    { name: 'Classic Gold Bangle',    price: 599 },
-    { name: 'Temple Style Bangle',    price: 699 },
-    { name: 'Wedding Kundan Bangle',  price: 899 },
-    { name: 'Meenakari Bangle',       price: 799 },
-    { name: 'Stone Work Bangle',      price: 749 },
-    { name: 'Daily Wear Bangle',      price: 549 },
-    { name: 'Bridal Luxe Bangle',     price: 1099 },
-    { name: 'Royal Pearl Bangle',     price: 849 },
+    { name: 'Classic Gold Bangle',     price: 599 },
+    { name: 'Temple Style Bangle',     price: 699 },
+    { name: 'Wedding Kundan Bangle',   price: 899 },
+    { name: 'Meenakari Bangle',        price: 799 },
+    { name: 'Stone Work Bangle',       price: 749 },
+    { name: 'Daily Wear Bangle',       price: 549 },
+    { name: 'Bridal Luxe Bangle',      price: 1099 },
+    { name: 'Royal Pearl Bangle',      price: 849 },
+    { name: 'Antique Filigree Bangle', price: 949 },
+    { name: 'Ruby Accent Bangle',      price: 1049 },
+    { name: 'Minimal Everyday Bangle', price: 499 },
+    { name: 'Layered Gold Bangle Set', price: 1199 },
   ],
 
   necklaces: [
-    { name: 'Classic Layered Necklace', price: 799 },
-    { name: 'Bridal Choker Set',        price: 1099 },
-    { name: 'Temple Pendant Necklace',  price: 899 },
-    { name: 'Kundan Neckpiece',         price: 1299 },
-    { name: 'Minimal Party Necklace',   price: 749 },
-    { name: 'Stone Drop Necklace',      price: 849 },
-    { name: 'Royal Pearl Set',          price: 949 },
-    { name: 'Festive Long Necklace',    price: 899 },
+    { name: 'Classic Layered Necklace',  price: 799 },
+    { name: 'Bridal Choker Set',         price: 1899 },
+    { name: 'Kundan Neckpiece',          price: 1299 },
+    { name: 'Royal Pearl Set',           price: 1449 },
+    { name: 'Festive Long Necklace',     price: 1099 },
+    { name: 'Pendant Necklace',          price: 699 },
+    { name: 'Temple Style Choker',       price: 1199 },
+    { name: 'Statement Bridal Necklace', price: 1999 },
+    { name: 'Meenakari Necklace Set',    price: 1349 },
+    { name: 'Delicate Gold Chain',       price: 599 },
   ],
 
   offers: {
@@ -97,6 +103,10 @@ const KB = {
   ],
 };
 
+// Works out the correct relative path prefix whether the chatbot
+// is running on the homepage or inside a category subfolder.
+const BASE = document.body.dataset.category ? '../' : '';
+
 // ── RESPONSE ENGINE ───────────────────────────────────────────
 function getResponse(raw) {
   const msg = raw.toLowerCase().trim();
@@ -104,10 +114,10 @@ function getResponse(raw) {
   // Greeting
   if (/^(hi|hello|hey|namaste|hii+|helo|good morning|good evening|good afternoon|greetings)/.test(msg)) {
     return `Namaste! 🙏 Welcome to <strong>MadhavPrem</strong>!<br><br>I'm your jewelry assistant. I can help you with:<br>
-• 💍 Product details & pricing<br>
-• 🛍️ How to place an order<br>
-• 🎉 Discounts & offers<br>
-• 📦 Delivery & custom orders<br><br>What would you like to know? 😊`;
+- 💍 Product details & pricing<br>
+- 🛍️ How to place an order<br>
+- 🎉 Discounts & offers<br>
+- 📦 Delivery & custom orders<br><br>What would you like to know? 😊`;
   }
 
   // About brand
@@ -131,21 +141,22 @@ ${KB.brand.description}<br><br>
   if (/\b(earring|jhumka|jhumki|chandbali|ear ring|ear-ring|earings|earrings)\b/.test(msg)) {
     if (/price|cost|rate|how much|cheapest|expensive|budget/.test(msg)) {
       return `💍 <strong>Earrings Pricing at MadhavPrem:</strong><br><br>
-• <strong>₹200</strong> — Classic Gold Jhumka, Antique Pearl, Royal Stone, Meenakari Gold, Temple Style, Traditional Bridal, and 8+ Signature Jhumkas<br>
-• <strong>₹250</strong> — Kundan Gold, Floral Designer, Multi-Stone Party, Ethnic Gold Drop, Heavy Wedding, Designer Pearl, South Indian, Daily Wear, Festival, Heritage, Luxury Party Wear, Bridal Drop, and more<br>
-• <strong>₹270</strong> — Special Signature Jhumka (limited)<br><br>
+- <strong>₹200</strong> — Classic Gold Jhumka, Antique Pearl, Royal Stone, Meenakari Gold, Temple Style, Traditional Bridal, and 8+ Signature Jhumkas<br>
+- <strong>₹250</strong> — Kundan Gold, Floral Designer, Multi-Stone Party, Ethnic Gold Drop, Heavy Wedding, Designer Pearl, South Indian, Daily Wear, Festival, Heritage, Luxury Party Wear, Bridal Drop, and more<br>
+- <strong>₹270</strong> — Special Signature Jhumka (limited)<br><br>
 💡 <strong>Most affordable starting at ₹200!</strong><br>
-🎉 Order 6+ pieces → get 30% OFF`;
+🎉 Order 6+ pieces → get 30% OFF<br>
+📍 <a href="${BASE}earrings/index.html" style="color:#1e7a5f;font-weight:600;">View All Earrings →</a>`;
     }
     if (/bridal|wedding/.test(msg)) {
       return `👰 <strong>Bridal Earrings at MadhavPrem:</strong><br><br>
-• Traditional Bridal Jhumka — ₹200<br>
-• Heavy Wedding Jhumka — ₹250<br>
-• Classic Bridal Drop Jhumka — ₹250<br>
-• Royal Heritage Jhumka — ₹250<br>
-• Luxury Party Wear Jhumka — ₹250<br><br>
+- Traditional Bridal Jhumka — ₹200<br>
+- Heavy Wedding Jhumka — ₹250<br>
+- Classic Bridal Drop Jhumka — ₹250<br>
+- Royal Heritage Jhumka — ₹250<br>
+- Luxury Party Wear Jhumka — ₹250<br><br>
 All are lightweight, elegant, and perfect for your special day! 💍<br>
-📍 <a href="earings/earrings.html" style="color:#1e7a5f;font-weight:600;">Browse Full Earrings Collection →</a>`;
+📍 <a href="${BASE}earrings/index.html" style="color:#1e7a5f;font-weight:600;">Browse Full Earrings Collection →</a>`;
     }
     let r = `✨ <strong>Earrings Collection — ${KB.earrings.length}+ designs:</strong><br><br>`;
     const sample = KB.earrings.slice(0, 12);
@@ -153,7 +164,7 @@ All are lightweight, elegant, and perfect for your special day! 💍<br>
     r += `• ...and <strong>20+ more Signature Jhumkas</strong> (₹200–₹270)<br><br>`;
     r += `💰 Price range: ₹200 – ₹270<br>`;
     r += `🎉 Order 6+ pieces → 30% OFF<br>`;
-    r += `📍 <a href="earings/earrings.html" style="color:#1e7a5f;font-weight:600;">View All Earrings →</a>`;
+    r += `📍 <a href="${BASE}earrings/index.html" style="color:#1e7a5f;font-weight:600;">View All Earrings →</a>`;
     return r;
   }
 
@@ -162,13 +173,13 @@ All are lightweight, elegant, and perfect for your special day! 💍<br>
     if (/price|cost|rate|how much|cheapest|expensive/.test(msg)) {
       let r = `💰 <strong>Bangles Pricing:</strong><br><br>`;
       KB.bangles.forEach(b => { r += `• ${b.name} — <strong>₹${b.price}</strong><br>`; });
-      r += `<br>Range: ₹549 – ₹1099 | 🎉 6+ pieces → 30% OFF`;
+      r += `<br>Range: ₹499 – ₹1199 | 🎉 6+ pieces → 30% OFF<br>📍 <a href="${BASE}Bangles/index.html" style="color:#1e7a5f;font-weight:600;">View All Bangles →</a>`;
       return r;
     }
-    let r = `📿 <strong>Bangles Collection (8 designs):</strong><br><br>`;
+    let r = `📿 <strong>Bangles Collection (12 designs):</strong><br><br>`;
     KB.bangles.forEach(b => { r += `• ${b.name} — <strong>₹${b.price}</strong><br>`; });
     r += `<br>💡 Perfect for weddings, parties, and daily wear!<br>`;
-    r += `📍 <a href="Bangles/" style="color:#1e7a5f;font-weight:600;">View All Bangles →</a>`;
+    r += `📍 <a href="${BASE}Bangles/index.html" style="color:#1e7a5f;font-weight:600;">View All Bangles →</a>`;
     return r;
   }
 
@@ -177,13 +188,13 @@ All are lightweight, elegant, and perfect for your special day! 💍<br>
     if (/price|cost|rate|how much|cheapest|expensive/.test(msg)) {
       let r = `💰 <strong>Necklace Pricing:</strong><br><br>`;
       KB.necklaces.forEach(n => { r += `• ${n.name} — <strong>₹${n.price}</strong><br>`; });
-      r += `<br>Range: ₹749 – ₹1299 | 🎉 6+ pieces → 30% OFF`;
+      r += `<br>Range: ₹599 – ₹1999 | 🎉 6+ pieces → 30% OFF<br>📍 <a href="${BASE}Neckales/index.html" style="color:#1e7a5f;font-weight:600;">View All Necklaces →</a>`;
       return r;
     }
-    let r = `📿 <strong>Necklace Collection (8 designs):</strong><br><br>`;
+    let r = `📿 <strong>Necklace Collection (10 designs):</strong><br><br>`;
     KB.necklaces.forEach(n => { r += `• ${n.name} — <strong>₹${n.price}</strong><br>`; });
     r += `<br>💡 From minimal party pieces to full bridal choker sets!<br>`;
-    r += `📍 <a href="Neckales/" style="color:#1e7a5f;font-weight:600;">View All Necklaces →</a>`;
+    r += `📍 <a href="${BASE}Neckales/index.html" style="color:#1e7a5f;font-weight:600;">View All Necklaces →</a>`;
     return r;
   }
 
@@ -192,17 +203,17 @@ All are lightweight, elegant, and perfect for your special day! 💍<br>
     return `👰 <strong>Bridal Jewelry at MadhavPrem:</strong><br><br>
 We have beautiful bridal pieces across all categories:<br><br>
 <strong>Earrings:</strong><br>
-• Traditional Bridal Jhumka — ₹200<br>
-• Heavy Wedding Jhumka — ₹250<br>
-• Classic Bridal Drop Jhumka — ₹250<br><br>
+- Traditional Bridal Jhumka — ₹200<br>
+- Heavy Wedding Jhumka — ₹250<br>
+- Classic Bridal Drop Jhumka — ₹250<br><br>
 <strong>Bangles:</strong><br>
-• Wedding Kundan Bangle — ₹899<br>
-• Bridal Luxe Bangle — ₹1099<br>
-• Royal Pearl Bangle — ₹849<br><br>
+- Wedding Kundan Bangle — ₹899<br>
+- Bridal Luxe Bangle — ₹1099<br>
+- Royal Pearl Bangle — ₹849<br><br>
 <strong>Necklaces:</strong><br>
-• Bridal Choker Set — ₹1099<br>
-• Kundan Neckpiece — ₹1299<br>
-• Royal Pearl Set — ₹949<br><br>
+- Bridal Choker Set — ₹1899<br>
+- Kundan Neckpiece — ₹1299<br>
+- Royal Pearl Set — ₹1449<br><br>
 <strong>Bridal Set (complete):</strong> ₹1899+<br><br>
 🎉 Order 6+ pieces → flat <strong>30% OFF!</strong><br>
 📦 Custom bridal sets available on request.<br>
@@ -223,8 +234,8 @@ We have beautiful bridal pieces across all categories:<br><br>
   if (/\b(price|pricing|cost|rate|how much|budget|affordable|expensive|cheapest|costliest)\b/.test(msg)) {
     return `💰 <strong>MadhavPrem Price Summary:</strong><br><br>
 <strong>Earrings:</strong> ₹200 – ₹270 (45+ designs)<br>
-<strong>Bangles:</strong> ₹549 – ₹1099 (8 designs)<br>
-<strong>Necklaces:</strong> ₹749 – ₹1299 (8 designs)<br>
+<strong>Bangles:</strong> ₹499 – ₹1199 (12 designs)<br>
+<strong>Necklaces:</strong> ₹599 – ₹1999 (10 designs)<br>
 <strong>Bridal Sets:</strong> ₹1899+<br><br>
 🎉 <strong>Best value:</strong> Order 6+ pieces → get 30% OFF!<br><br>
 Ask me about a specific category or item for exact pricing.`;
@@ -235,7 +246,7 @@ Ask me about a specific category or item for exact pricing.`;
     return `🛍️ <strong>How to Place an Order:</strong><br><br>
 <strong>Step 1 —</strong> Browse our collections (Earrings, Bangles, Necklaces)<br>
 <strong>Step 2 —</strong> Click <em>"Add to Cart"</em> on items you like<br>
-<strong>Step 3 —</strong> Click the Cart button → <em>"Send Cart to Order"</em> to auto-fill the form<br>
+<strong>Step 3 —</strong> Click the Cart button to review your order<br>
 <strong>Step 4 —</strong> Fill in your Name, Email, Phone, Delivery Address<br>
 <strong>Step 5 —</strong> Click <em>"Send Order Request"</em><br><br>
 📧 Your order goes directly to: <strong>madhavprem3aug@gmail.com</strong><br>
@@ -246,10 +257,10 @@ Ask me about a specific category or item for exact pricing.`;
   // Delivery / shipping
   if (/\b(delivery|shipping|ship|dispatch|courier|time|days|how long|when will|arrive)\b/.test(msg)) {
     return `📦 <strong>Delivery Information:</strong><br><br>
-• We deliver <strong>across India</strong> 🇮🇳<br>
-• Delivery timeline and charges are confirmed at the time of order via phone/WhatsApp<br>
-• Orders are dispatched after payment confirmation<br>
-• You can track your order through the courier details shared after dispatch<br><br>
+- We deliver <strong>across India</strong> 🇮🇳<br>
+- Delivery timeline and charges are confirmed at the time of order via phone/WhatsApp<br>
+- Orders are dispatched after payment confirmation<br>
+- You can track your order through the courier details shared after dispatch<br><br>
 For urgent orders or specific delivery dates, mention it in the <em>Notes</em> field while ordering.`;
   }
 
@@ -258,9 +269,9 @@ For urgent orders or specific delivery dates, mention it in the <em>Notes</em> f
     return `💳 <strong>Payment at MadhavPrem:</strong><br><br>
 Payment details are shared after your order is confirmed via phone/WhatsApp.<br><br>
 We accept:<br>
-• UPI (GPay, PhonePe, Paytm)<br>
-• Bank Transfer (NEFT/IMPS)<br>
-• Other modes as mutually agreed<br><br>
+- UPI (GPay, PhonePe, Paytm)<br>
+- Bank Transfer (NEFT/IMPS)<br>
+- Other modes as mutually agreed<br><br>
 📲 Contact us at <strong>madhavprem3aug@gmail.com</strong> for any payment queries.`;
   }
 
@@ -268,10 +279,10 @@ We accept:<br>
   if (/\b(custom|bulk|wholesale|large order|gifting|event|corporate|mehndi|sangeet|quantity)\b/.test(msg)) {
     return `🎁 <strong>Custom & Bulk Orders:</strong><br><br>
 Yes! We absolutely take custom and bulk orders! 🙌<br><br>
-• Weddings, mehndi, sangeet, haldi functions<br>
-• Corporate gifting<br>
-• Festival & event gifting<br>
-• Custom designs based on your reference image<br><br>
+- Weddings, mehndi, sangeet, haldi functions<br>
+- Corporate gifting<br>
+- Festival & event gifting<br>
+- Custom designs based on your reference image<br><br>
 🎉 <strong>Bulk discount:</strong> Order 6+ pieces → 30% OFF automatically<br>
 💬 For larger quantities, contact us directly:<br>
 📧 <strong>madhavprem3aug@gmail.com</strong><br><br>
@@ -283,8 +294,8 @@ Mention your requirements in the <em>Notes</em> section of the order form.`;
     return `📞 <strong>Contact MadhavPrem:</strong><br><br>
 📧 Email: <strong>madhavprem3aug@gmail.com</strong><br><br>
 You can also:<br>
-• Place an order via the website form and we'll reach out on WhatsApp<br>
-• Upload a reference image or describe your requirement in the order notes<br><br>
+- Place an order via the website form and we'll reach out on WhatsApp<br>
+- Upload a reference image or describe your requirement in the order notes<br><br>
 We respond quickly! 🙏`;
   }
 
@@ -308,7 +319,7 @@ ${KB.faqs[3].a}`;
 
   // Thank you
   if (/\b(thank|thanks|thank you|thnks|thx|great|awesome|perfect|nice)\b/.test(msg)) {
-    return `You're most welcome! 😊 Happy shopping at <strong>MadhavPrem</strong>! 💎<br><br>Feel free to ask anything else or <a href="index.html#order" style="color:#1e7a5f;font-weight:600;">place your order here →</a>`;
+    return `You're most welcome! 😊 Happy shopping at <strong>MadhavPrem</strong>! 💎<br><br>Feel free to ask anything else or <a href="${BASE}index.html#order" style="color:#1e7a5f;font-weight:600;">place your order here →</a>`;
   }
 
   // Goodbye
@@ -351,12 +362,12 @@ Try asking any of the above! 😊`;
     #mp-chat-window {
       position: fixed; bottom: 5rem; right: 1.6rem; z-index: 9001;
       width: min(92vw, 380px); height: 520px;
-      background: #faf6ef; border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(13,74,58,0.22);
+      background: #faf6ef; border-radius: 22px;
+      box-shadow: 0 24px 64px rgba(13,74,58,0.26);
       display: flex; flex-direction: column; overflow: hidden;
-      border: 1.5px solid rgba(201,168,76,0.22);
-      transform: scale(0.9) translateY(20px); opacity: 0;
-      transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease;
+      border: 1.5px solid rgba(201,168,76,0.25);
+      transform: scale(0.92) translateY(16px); opacity: 0;
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
       pointer-events: none;
       font-family: 'Jost', 'Poppins', sans-serif;
     }
@@ -372,7 +383,7 @@ Try asking any of the above! 😊`;
       border: 1.5px solid rgba(201,168,76,0.4); flex-shrink: 0;
     }
     #mp-chat-head .mp-head-info { flex: 1; }
-    #mp-chat-head .mp-head-info strong { display: block; color: #e2c97e; font-size: 0.95rem; }
+    #mp-chat-head .mp-head-info strong { display: block; color: #e2c97e; font-size: 1.05rem; font-family: 'Cormorant Garamond', serif; font-weight: 700; letter-spacing: 0.01em; }
     #mp-chat-head .mp-head-info span { color: rgba(250,246,239,0.65); font-size: 0.75rem; }
     #mp-chat-close {
       background: none; border: none; color: rgba(250,246,239,0.7);
@@ -408,12 +419,12 @@ Try asking any of the above! 😊`;
       padding: 0.6rem 1rem 0; display: flex; flex-wrap: wrap; gap: 0.45rem; flex-shrink: 0;
     }
     .mp-chip {
-      background: rgba(13,74,58,0.08); border: 1px solid rgba(13,74,58,0.2);
-      color: #0d4a3a; border-radius: 999px; padding: 0.3rem 0.75rem;
+      background: #fff; border: 1px solid rgba(13,74,58,0.2);
+      color: #0d4a3a; border-radius: 999px; padding: 0.35rem 0.8rem;
       font-size: 0.75rem; cursor: pointer; font-weight: 600; font-family: inherit;
-      transition: background 0.2s, color 0.2s;
+      transition: background 0.2s, color 0.2s, transform 0.2s;
     }
-    .mp-chip:hover { background: #0d4a3a; color: #e2c97e; }
+    .mp-chip:hover { background: #0d4a3a; color: #e2c97e; transform: translateY(-1px); }
     #mp-chat-input-row {
       padding: 0.7rem; display: flex; gap: 0.5rem; flex-shrink: 0;
       border-top: 1px solid rgba(13,74,58,0.1); background: #fff;
@@ -440,10 +451,6 @@ Try asking any of the above! 😊`;
     }
     .mp-typing span:nth-child(2) { animation-delay: 0.2s; }
     .mp-typing span:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes mp-bounce {
-      0%, 60%, 100% { transform: translateY(0); }
-      30% { transform: translateY(-6px); }
-    }
     @media (max-width: 480px) {
       #mp-chat-window { bottom: 4.5rem; right: 0.8rem; width: calc(100vw - 1.6rem); height: 480px; }
       #mp-chat-fab { bottom: 1rem; right: 1rem; }
