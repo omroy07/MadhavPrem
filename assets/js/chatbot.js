@@ -13,11 +13,11 @@ const KB = {
   },
 
   categories: [
-    { name: 'Earrings', count: 45, priceRange: '₹200 – ₹270', link: 'earrings/index.html',
+    { name: 'Earrings', count: 45, priceRange: '₹200 – ₹270', link: 'earrings.html',
       desc: 'A wide collection of Jhumkas, chandbalis, statement drops, and ethnic designs. Perfect for daily wear, festive occasions, weddings, and parties.' },
-    { name: 'Bangles / Bracelets', count: 12, priceRange: '₹499 – ₹1199', link: 'Bangles/index.html',
+    { name: 'Bangles / Bracelets', count: 12, priceRange: '₹499 – ₹1199', link: 'bangles.html',
       desc: 'Classic gold, temple-style, kundan, meenakari, stone-work, bridal, and daily-wear bangles. Blends tradition with modern charm.' },
-    { name: 'Necklaces', count: 10, priceRange: '₹599 – ₹1999', link: 'Neckales/index.html',
+    { name: 'Necklaces', count: 10, priceRange: '₹599 – ₹1999', link: 'necklaces.html',
       desc: 'Layered necklaces, choker sets, pendant necklaces, kundan neckpieces, royal pearl sets, and festive long necklaces.' },
     { name: 'Bridal Sets', count: null, priceRange: '₹1899+', link: 'index.html#order',
       desc: 'Complete bridal jewelry sets for your special day. Custom and bulk orders welcome.' },
@@ -81,8 +81,8 @@ const KB = {
 
   offers: {
     discount: '30%',
-    condition: 'Order more than 5 pieces',
-    detail: 'Order any 6 or more pieces in a single order and get a flat 30% discount on the total. This applies across all categories — earrings, bangles, necklaces, and bridal sets.',
+    condition: 'Order 5 or more pieces',
+    detail: 'Order any 5 or more pieces in a single order and get a flat 30% discount on your total. This applies across all categories — earrings, bangles, necklaces, and bridal sets.',
   },
 
   ordering: {
@@ -99,13 +99,13 @@ const KB = {
     { q: 'Are the pieces hypoallergenic?', a: 'Most of our pieces are made with skin-friendly alloys. If you have specific metal sensitivities, please mention it in the order notes or contact us before ordering.' },
     { q: 'Can I return or exchange an item?', a: 'We accept exchange requests for damaged or incorrect items. Contact us at madhavprem3aug@gmail.com within 48 hours of receiving your order.' },
     { q: 'How do I care for the jewelry?', a: 'Keep away from water, perfume, and sweat. Store in a dry pouch or box. Wipe gently with a soft cloth after use.' },
-    { q: 'Do you do bulk orders for events?', a: 'Absolutely! We specialise in bulk orders for weddings, mehndi, sangeet, and corporate gifting. Orders above 5 pieces get 30% off. Contact us for even larger quantities.' },
+    { q: 'Do you do bulk orders for events?', a: 'Absolutely! We specialise in bulk orders for weddings, mehndi, sangeet, and corporate gifting. Orders of 5 or more pieces get a flat 30% discount on the total. Contact us for even larger quantities.' },
   ],
 };
 
 // Works out the correct relative path prefix whether the chatbot
 // is running on the homepage or inside a category subfolder.
-const BASE = document.body.dataset.category ? '../' : '';
+const BASE = '';
 
 // ── RESPONSE ENGINE ───────────────────────────────────────────
 function getResponse(raw) {
@@ -145,8 +145,8 @@ ${KB.brand.description}<br><br>
 - <strong>₹250</strong> — Kundan Gold, Floral Designer, Multi-Stone Party, Ethnic Gold Drop, Heavy Wedding, Designer Pearl, South Indian, Daily Wear, Festival, Heritage, Luxury Party Wear, Bridal Drop, and more<br>
 - <strong>₹270</strong> — Special Signature Jhumka (limited)<br><br>
 💡 <strong>Most affordable starting at ₹200!</strong><br>
-🎉 Order 6+ pieces → get 30% OFF<br>
-📍 <a href="${BASE}earrings/index.html" style="color:#1e7a5f;font-weight:600;">View All Earrings →</a>`;
+🎉 Order 5+ pieces → get 30% OFF<br>
+📍 <a href="${BASE}earrings.html" style="color:#1e7a5f;font-weight:600;">View All Earrings →</a>`;
     }
     if (/bridal|wedding/.test(msg)) {
       return `👰 <strong>Bridal Earrings at MadhavPrem:</strong><br><br>
@@ -156,15 +156,15 @@ ${KB.brand.description}<br><br>
 - Royal Heritage Jhumka — ₹250<br>
 - Luxury Party Wear Jhumka — ₹250<br><br>
 All are lightweight, elegant, and perfect for your special day! 💍<br>
-📍 <a href="${BASE}earrings/index.html" style="color:#1e7a5f;font-weight:600;">Browse Full Earrings Collection →</a>`;
+📍 <a href="${BASE}earrings.html" style="color:#1e7a5f;font-weight:600;">Browse Full Earrings Collection →</a>`;
     }
     let r = `✨ <strong>Earrings Collection — ${KB.earrings.length}+ designs:</strong><br><br>`;
     const sample = KB.earrings.slice(0, 12);
     sample.forEach(e => { r += `• ${e.name} — <strong>₹${e.price}</strong><br>`; });
     r += `• ...and <strong>20+ more Signature Jhumkas</strong> (₹200–₹270)<br><br>`;
     r += `💰 Price range: ₹200 – ₹270<br>`;
-    r += `🎉 Order 6+ pieces → 30% OFF<br>`;
-    r += `📍 <a href="${BASE}earrings/index.html" style="color:#1e7a5f;font-weight:600;">View All Earrings →</a>`;
+    r += `🎉 Order 5+ pieces → 30% OFF<br>`;
+    r += `📍 <a href="${BASE}earrings.html" style="color:#1e7a5f;font-weight:600;">View All Earrings →</a>`;
     return r;
   }
 
@@ -173,13 +173,13 @@ All are lightweight, elegant, and perfect for your special day! 💍<br>
     if (/price|cost|rate|how much|cheapest|expensive/.test(msg)) {
       let r = `💰 <strong>Bangles Pricing:</strong><br><br>`;
       KB.bangles.forEach(b => { r += `• ${b.name} — <strong>₹${b.price}</strong><br>`; });
-      r += `<br>Range: ₹499 – ₹1199 | 🎉 6+ pieces → 30% OFF<br>📍 <a href="${BASE}Bangles/index.html" style="color:#1e7a5f;font-weight:600;">View All Bangles →</a>`;
+      r += `<br>Range: ₹499 – ₹1199 | 🎉 5+ pieces → 30% OFF<br>📍 <a href="${BASE}bangles.html" style="color:#1e7a5f;font-weight:600;">View All Bangles →</a>`;
       return r;
     }
     let r = `📿 <strong>Bangles Collection (12 designs):</strong><br><br>`;
     KB.bangles.forEach(b => { r += `• ${b.name} — <strong>₹${b.price}</strong><br>`; });
     r += `<br>💡 Perfect for weddings, parties, and daily wear!<br>`;
-    r += `📍 <a href="${BASE}Bangles/index.html" style="color:#1e7a5f;font-weight:600;">View All Bangles →</a>`;
+    r += `📍 <a href="${BASE}bangles.html" style="color:#1e7a5f;font-weight:600;">View All Bangles →</a>`;
     return r;
   }
 
@@ -188,13 +188,13 @@ All are lightweight, elegant, and perfect for your special day! 💍<br>
     if (/price|cost|rate|how much|cheapest|expensive/.test(msg)) {
       let r = `💰 <strong>Necklace Pricing:</strong><br><br>`;
       KB.necklaces.forEach(n => { r += `• ${n.name} — <strong>₹${n.price}</strong><br>`; });
-      r += `<br>Range: ₹599 – ₹1999 | 🎉 6+ pieces → 30% OFF<br>📍 <a href="${BASE}Neckales/index.html" style="color:#1e7a5f;font-weight:600;">View All Necklaces →</a>`;
+      r += `<br>Range: ₹599 – ₹1999 | 🎉 5+ pieces → 30% OFF<br>📍 <a href="${BASE}necklaces.html" style="color:#1e7a5f;font-weight:600;">View All Necklaces →</a>`;
       return r;
     }
     let r = `📿 <strong>Necklace Collection (10 designs):</strong><br><br>`;
     KB.necklaces.forEach(n => { r += `• ${n.name} — <strong>₹${n.price}</strong><br>`; });
     r += `<br>💡 From minimal party pieces to full bridal choker sets!<br>`;
-    r += `📍 <a href="${BASE}Neckales/index.html" style="color:#1e7a5f;font-weight:600;">View All Necklaces →</a>`;
+    r += `📍 <a href="${BASE}necklaces.html" style="color:#1e7a5f;font-weight:600;">View All Necklaces →</a>`;
     return r;
   }
 
@@ -215,19 +215,19 @@ We have beautiful bridal pieces across all categories:<br><br>
 - Kundan Neckpiece — ₹1299<br>
 - Royal Pearl Set — ₹1449<br><br>
 <strong>Bridal Set (complete):</strong> ₹1899+<br><br>
-🎉 Order 6+ pieces → flat <strong>30% OFF!</strong><br>
+🎉 Order 5+ pieces → flat <strong>30% OFF!</strong><br>
 📦 Custom bridal sets available on request.<br>
 📧 Contact: madhavprem3aug@gmail.com`;
   }
 
   // Discount / offers
   if (/\b(discount|offer|off|deal|promo|coupon|sale|saving|cheap)\b/.test(msg)) {
-    return `🎉 <strong>Special Offer at MadhavPrem:</strong><br><br>
-<strong>Order more than 5 pieces → flat 30% OFF</strong> on your entire order!<br><br>
+    return `🎉 <strong>Bulk Orders at MadhavPrem:</strong><br><br>
+<strong>Order 5 or more pieces → flat 30% OFF</strong> on your entire order total!<br><br>
 📌 This applies to all categories — earrings, bangles, necklaces, bridal sets.<br>
-📌 Mix and match across categories — any 6 pieces total.<br>
-📌 Discount is automatically applied when you enter 6+ in the quantity field on the order form.<br><br>
-💡 <strong>Example:</strong> 3 bangles + 3 earrings = 6 pieces → 30% off!`;
+📌 Mix and match across categories — any 5 pieces total.<br>
+📌 The discount is automatically calculated on your cart total once you add 5+ pieces.<br><br>
+💡 <strong>Example:</strong> 2 bangles + 3 earrings = 5 pieces → 30% off your total!`;
   }
 
   // Price / cost (general)
@@ -237,7 +237,7 @@ We have beautiful bridal pieces across all categories:<br><br>
 <strong>Bangles:</strong> ₹499 – ₹1199 (12 designs)<br>
 <strong>Necklaces:</strong> ₹599 – ₹1999 (10 designs)<br>
 <strong>Bridal Sets:</strong> ₹1899+<br><br>
-🎉 <strong>Best value:</strong> Order 6+ pieces → get 30% OFF!<br><br>
+🎉 <strong>Best value:</strong> Order 5+ pieces → get 30% OFF your total!<br><br>
 Ask me about a specific category or item for exact pricing.`;
   }
 
@@ -283,7 +283,7 @@ Yes! We absolutely take custom and bulk orders! 🙌<br><br>
 - Corporate gifting<br>
 - Festival & event gifting<br>
 - Custom designs based on your reference image<br><br>
-🎉 <strong>Bulk discount:</strong> Order 6+ pieces → 30% OFF automatically<br>
+🎉 <strong>Bulk discount:</strong> Order 5+ pieces → 30% OFF automatically<br>
 💬 For larger quantities, contact us directly:<br>
 📧 <strong>madhavprem3aug@gmail.com</strong><br><br>
 Mention your requirements in the <em>Notes</em> section of the order form.`;
